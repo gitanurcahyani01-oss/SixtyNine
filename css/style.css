@@ -171,9 +171,13 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .hero {
   min-height: 100vh;
   background: linear-gradient(135deg, #e8f4fd 0%, #d0e8f7 40%, #c8e0f5 100%);
-  display: flex; align-items: center;
-  padding: 100px 24px 60px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 40px;
+  padding: 100px 60px 60px;
   position: relative; overflow: hidden;
+  max-width: 100%;
 }
 
 .hero-bg-shape {
@@ -181,6 +185,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   width: 700px; height: 700px;
   background: radial-gradient(circle, rgba(184,217,240,0.5) 0%, transparent 70%);
   border-radius: 50%;
+  pointer-events: none;
 }
 
 .hero-dots {
@@ -188,16 +193,15 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   width: 120px; height: 120px;
   background-image: radial-gradient(circle, rgba(26,35,64,0.12) 2px, transparent 2px);
   background-size: 16px 16px;
+  pointer-events: none;
 }
 
-.hero { max-width: 100%; }
 .hero > * { position: relative; z-index: 1; }
 
 .hero-content {
-  max-width: 1200px; margin: 0 auto;
   display: flex; flex-direction: column; align-items: flex-start;
-  width: 100%; max-width: 520px;
   animation: fadeUp 0.8s ease both;
+  padding-left: 20px;
 }
 
 .hero-badge {
@@ -211,7 +215,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .hero-title {
   font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 900; font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 900; font-size: clamp(2.8rem, 5.5vw, 5rem);
   line-height: 0.95; letter-spacing: -1px;
   color: var(--primary);
   margin-bottom: 20px;
@@ -228,10 +232,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* Hero Shoe */
 .hero-shoe {
-  position: absolute; right: 5%; top: 50%;
-  transform: translateY(-50%);
-  width: min(520px, 50%);
-  z-index: 1;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
   animation: floatShoe 4s ease-in-out infinite;
 }
 
@@ -241,6 +243,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   border-radius: 40px;
   padding: 30px;
   box-shadow: var(--shadow-lg);
+  width: 100%;
 }
 
 .shoe-platform img {
@@ -654,8 +657,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 @keyframes floatShoe {
-  0%, 100% { transform: translateY(-50%) translateY(0); }
-  50%       { transform: translateY(-50%) translateY(-16px); }
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-16px); }
 }
 
 @keyframes floatBadge {
@@ -665,8 +668,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
+  .hero { padding: 100px 32px 60px; gap: 30px; }
   .products-grid { grid-template-columns: repeat(2, 1fr); }
-  .hero-shoe { width: 40%; }
   .about { flex-direction: column; gap: 40px; }
   .arrivals-banner { flex-direction: column; padding: 60px 24px; }
   .arrivals-visual { display: none; }
@@ -688,9 +691,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .hamburger { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; font-size: 1rem; }
   .hamburger:hover { background: var(--light-bg); }
 
-  .hero { flex-direction: column; padding: 120px 24px 60px; min-height: auto; }
-  .hero-shoe { position: relative; top: auto; right: auto; transform: none; width: 100%; margin-top: 40px; animation: none; }
-  .hero-shoe .shoe-platform { animation: none; }
+  .hero { grid-template-columns: 1fr; padding: 110px 24px 60px; min-height: auto; gap: 32px; }
+  .hero-content { padding-left: 0; align-items: center; text-align: center; }
+  .hero-sub { text-align: left; }
+  .hero-shoe { animation: none; max-width: 420px; width: 100%; margin: 0 auto; }
   .floating-badge { display: none; }
 
   .products { padding: 60px 24px; }
