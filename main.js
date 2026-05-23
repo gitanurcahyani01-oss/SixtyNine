@@ -1,0 +1,188 @@
+// ===== CONSTANTS =====
+const WA_NUMBER = '6281221522609';
+
+// ===== CART STATE =====
+let cart = JSON.parse(localStorage.getItem('sixtnine_cart') || '[]');
+let currentModal = { name: '', price: 0, img: '' };
+
+// ===== NAVBAR SCROLL =====
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// ===== HAMBURGER MENU =====
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+hamburger.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+});
+// Close on link click
+navLinks.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', () => navLinks.classList.remove('open'));
+});
+
+// ===== ACTIVE NAV ON SCROLL =====
+const sections = document.querySelectorAll('section[id]');
+const allNavLinks = document.querySelectorAll('.nav-link');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      allNavLinks.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.4 });
+
+sections.forEach(sec => observer.observe(sec));
+
+// ===== CARD ANIMATION ON SCROLL =====
+const cards = document.querySelectorAll('.product-card');
+const cardObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      const delay = parseInt(entry.target.dataset.delay || 0);
+      setTimeout(() => {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }, delay);
+      cardObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+cards.forEach(card => {
+  card.style.opacity = '0';
+  card.style.transform = 'translateY(40px)';
+  card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  cardObserver.observe(card);
+});
+
+// ===== TOAST =====
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2800);
+}
+
+// ===== CART FUNCTIONS =====
+function updateCartUI() {
+  const items = document.getElementById('cartItems');
+  const footer = document.getElementById('cartFooter');
+  const countEl = document.querySelector('.cart-count');
+
+  countEl.textContent = cart.length;
+
+  if (cart.length === 0) {
+    items.innerHTML = '<p class="cart-empty">Your bag is empty.</p>';
+    footer.style.display = 'none';
+    return;
+  }
+
+  let total = 0;
+  items.innerHTML = cart.map((item, i) => {
+    total += item.price;
+    return `
+      <div class="cart-item">
+        <div class="cart-item-img">
+          <img src="${item.img}" alt="${item.name}" onerror="this.src='img/placeholder.svg'"/>
+        </div>
+        <div class="cart-item-info">
+          <h4>${item.name}</h4>
+          <span>$${item.price}</span>
+        </div>
+        <button class="cart-item-remove" onclick="removeFromCart(${i})" aria-label="Remove">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('cartTotal').textContent = `$${total}`;
+  footer.style.display = 'block';
+
+  // Build WhatsApp checkout message
+  const orderText = cart.map(item => `- ${item.name} ($${item.price})`).join('%0A');
+  const waMsg = `Halo SixtNine! Saya ingin memesan:%0A%0A${orderText}%0A%0ATotal: $${total}%0A%0AMohon konfirmasinya, terima kasih!`;
+  document.getElementById('checkoutWa').href = `https://wa.me/${WA_NUMBER}?text=${waMsg}`;
+}
+
+function addToCart(name, price, img = 'img/placeholder.svg') {
+  cart.push({ name, price, img });
+  localStorage.setItem('sixtnine_cart', JSON.stringify(cart));
+  updateCartUI();
+  openCart();
+  showToast(`${name} ditambahkan ke keranjang!`);
+}
+
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  localStorage.setItem('sixtnine_cart', JSON.stringify(cart));
+  updateCartUI();
+}
+
+function openCart() {
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCart() {
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.querySelector('.cart-btn').addEventListener('click', openCart);
+
+// ===== MODAL FUNCTIONS =====
+function openDetail(name, price, imgSrc) {
+  currentModal = { name, price, img: imgSrc };
+  document.getElementById('modalName').textContent = name;
+  document.getElementById('modalPrice').textContent = `$${price}`;
+  document.getElementById('modalImg').src = imgSrc;
+
+  // Build WhatsApp order link
+  const waMsg = `Halo SixtNine! Saya tertarik dengan produk *${name}* seharga *$${price}*. Apakah masih tersedia? Terima kasih!`;
+  document.getElementById('modalWaBtn').href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waMsg.replace('%0A', '\n'))}`;
+  // fix encoding
+  document.getElementById('modalWaBtn').href = `https://wa.me/${WA_NUMBER}?text=Halo%20SixtNine!%20Saya%20tertarik%20dengan%20produk%20*${encodeURIComponent(name)}*%20seharga%20*$${price}*.%20Apakah%20masih%20tersedia%3F%20Terima%20kasih!`;
+
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function selectSize(btn) {
+  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function addFromModal() {
+  addToCart(currentModal.name, currentModal.price, currentModal.img);
+  closeModal();
+}
+
+// Close modal on ESC
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') { closeModal(); closeCart(); }
+});
+
+// ===== INIT =====
+updateCartUI();
+
+// ===== HERO SHOE PARALLAX (subtle) =====
+document.addEventListener('mousemove', (e) => {
+  const shoe = document.querySelector('.hero-shoe');
+  if (!shoe || window.innerWidth < 768) return;
+  const x = (e.clientX / window.innerWidth - 0.5) * 12;
+  const y = (e.clientY / window.innerHeight - 0.5) * 8;
+  shoe.style.transform = `translateY(calc(-50% + ${y}px)) translateX(${x}px)`;
+});

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SixtNine — Step Into Your Style</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo">SixtNine</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#shop" class="nav-link">Shop</a>
+        <a href="#arrivals" class="nav-link">New Arrivals</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <button class="icon-btn cart-btn"><i class="fa-solid fa-bag-shopping"></i><span class="cart-count">0</span></button>
+        <button class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="home">
+    <div class="hero-bg-shape"></div>
+    <div class="hero-dots"></div>
+    <div class="hero-content">
+      <span class="hero-badge">New Collection 2024</span>
+      <h1 class="hero-title">SIXTNINE:<br><span class="accent">STEP INTO</span><br>YOUR STYLE.</h1>
+      <p class="hero-sub">Discover comfort, expression, and innovation with our latest sneaker collection. Crafted for life, designed for you.</p>
+      <div class="hero-btns">
+        <a href="#shop" class="btn-primary">Explore Collection</a>
+        <a href="#arrivals" class="btn-ghost">New Arrivals</a>
+      </div>
+    </div>
+    <div class="hero-shoe">
+      <div class="shoe-platform">
+        <img src="img/sepatu.jpeg" alt="Featured Sneaker" class="hero-shoe-img" onerror="this.src='img/placeholder.svg'"/>
+      </div>
+      <div class="floating-badge badge-1">Comfort+</div>
+      <div class="floating-badge badge-2">Premium</div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURED PRODUCTS ===== -->
+  <section class="products" id="shop">
+    <div class="section-header">
+      <span class="section-tag">Featured</span>
+      <h2 class="section-title">Our Collection</h2>
+    </div>
+    <div class="products-grid" id="productsGrid">
+
+     
+      <div class="product-card featured" data-aos="fade-up" data-delay="100">
+        <div class="badge-new">Bestseller</div>
+        <div class="product-img-wrap">
+          <img src="img/sepatu.jpeg" alt="Sneakers Serbaguna" onerror="this.src='img/placeholder.svg'"/>
+          <button class="quick-add" onclick="addToCart('Sneakers Serbaguna', 110)">
+            <i class="fa-solid fa-plus"></i> Quick Add
+          </button>
+        </div>
+        <div class="product-info">
+          <h3>Sneakers Serbaguna</h3>
+          <div class="stars">★★★★★</div>
+          <div class="product-footer">
+            <span class="price">Rp 137.000</span>
+            <button class="btn-detail" onclick="openDetail('Sneakers Serbaguna', 110, 'img/sepatu.jpeg')">View Details</button>
+          </div>
+        </div>
+      </div>
+    <div class="product-card featured" data-aos="fade-up" data-delay="100">
+            <div class="badge-new">Bestseller</div>
+            <div class="product-img-wrap">
+              <img src="img/sepatu2.jpeg" alt="Sneakers Serbaguna" onerror="this.src='img/placeholder.svg'"/>
+              <button class="quick-add" onclick="addToCart('Sneakers Serbaguna', 110)">
+                <i class="fa-solid fa-plus"></i> Quick Add
+              </button>
+            </div>
+            <div class="product-info">
+              <h3>Sneakers Serbaguna</h3>
+              <div class="stars">★★★★★</div>
+              <div class="product-footer">
+                <span class="price">Rp 137.000</span>
+                <button class="btn-detail" onclick="openDetail('Sneakers Serbaguna', 110, 'img/sepatu.jpeg')">View Details</button>
+              </div>
+            </div>
+          
+          </div>
+   <div class="product-card featured" data-aos="fade-up" data-delay="100">
+            <div class="badge-new">Bestseller</div>
+            <div class="product-img-wrap">
+              <img src="img/sepatu3.jpeg" alt="Sneakers Serbaguna" onerror="this.src='img/placeholder.svg'"/>
+              <button class="quick-add" onclick="addToCart('Sneakers Serbaguna', 110)">
+                <i class="fa-solid fa-plus"></i> Quick Add
+              </button>
+            </div>
+            <div class="product-info">
+              <h3>Sneakers Serbaguna</h3>
+              <div class="stars">★★★★★</div>
+              <div class="product-footer">
+                <span class="price">Rp 137.000</span>
+                <button class="btn-detail" onclick="openDetail('Sneakers Serbaguna', 110, 'img/sepatu.jpeg')">View Details</button>
+              </div>
+            </div>
+          
+          </div>
+    </div>
+  </section>
+
+  <!-- ===== NEW ARRIVALS BANNER ===== -->
+  <section class="arrivals-banner" id="arrivals">
+    <div class="arrivals-content">
+      <span class="section-tag light">Just Dropped</span>
+      <h2>New Arrivals<br>Are Here.</h2>
+      <p>Fresh silhouettes. Bold colorways. Limited drops every week.</p>
+      <a href="#shop" class="btn-primary">Shop Now</a>
+    </div>
+    <div class="arrivals-visual">
+      <div class="arrivals-circle"></div>
+      <img src="img/sepatu.jpeg" alt="New Arrival" onerror="this.src='img/placeholder.svg'" class="arrivals-img"/>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT ===== -->
+  <section class="about" id="about">
+    <div class="about-content">
+      <span class="section-tag">About Us</span>
+      <h2>Crafted for Life,<br>Designed for You.</h2>
+      <p>SixtNine was born from a simple belief: everyone deserves footwear that moves with them — through workouts, commutes, adventures, and everything in between. We combine premium materials with innovative design to create sneakers you'll reach for every day.</p>
+      <div class="about-stats">
+        <div class="stat"><span class="stat-num">50K+</span><span>Happy Customers</span></div>
+        <div class="stat"><span class="stat-num">120+</span><span>Styles Available</span></div>
+        <div class="stat"><span class="stat-num">4.9★</span><span>Average Rating</span></div>
+      </div>
+    </div>
+    <div class="about-img-wrap">
+      <img src="img/sepatu.jpeg" alt="About SixtNine" onerror="this.src='img/placeholder.svg'"/>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section class="contact" id="contact">
+    <div class="contact-inner">
+      <span class="section-tag">Get In Touch</span>
+      <h2>Have Questions?<br>We're Here.</h2>
+      <p>Reach out via WhatsApp for the fastest response. We reply within minutes!</p>
+      <a href="https://wa.me/6281221522609" target="_blank" class="btn-wa">
+        <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+      </a>
+      <div class="contact-info">
+        <div class="info-item"><i class="fa-solid fa-phone"></i> +62 812-2152-2609</div>
+        <div class="info-item"><i class="fa-solid fa-envelope"></i> </div>
+        <div class="info-item"><i class="fa-solid fa-location-dot"></i> Cimahi, Jawa Barat</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo">SixtNine</span>
+        <p>Step into your style, every single day.</p>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://wa.me/6281221522609" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <a href="#home">Home</a>
+        <a href="#shop">Shop</a>
+        <a href="#arrivals">New Arrivals</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-links">
+        <h4>Support</h4>
+        <a href="#">Size Guide</a>
+        <a href="#">Shipping Info</a>
+        <a href="#">Returns</a>
+        <a href="#">FAQ</a>
+        <a href="https://wa.me/6281221522609" target="_blank">WhatsApp Us</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 SixtNine Co. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- ===== MODAL ===== -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+      <div class="modal-img">
+        <img id="modalImg" src="" alt="" onerror="this.src='img/placeholder.svg'"/>
+      </div>
+      <div class="modal-info">
+        <h3 id="modalName"></h3>
+        <div class="stars">★★★★★</div>
+        <p class="modal-price" id="modalPrice"></p>
+        <p class="modal-desc">Premium sneaker crafted with breathable upper mesh, responsive foam midsole, and durable rubber outsole. Perfect for everyday wear and light athletic activity.</p>
+        <div class="size-selector">
+          <label>Select Size:</label>
+          <div class="sizes">
+            <button class="size-btn" onclick="selectSize(this)">39</button>
+            <button class="size-btn" onclick="selectSize(this)">40</button>
+            <button class="size-btn active" onclick="selectSize(this)">41</button>
+            <button class="size-btn" onclick="selectSize(this)">42</button>
+            <button class="size-btn" onclick="selectSize(this)">43</button>
+            <button class="size-btn" onclick="selectSize(this)">44</button>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-primary" id="modalAddBtn" onclick="addFromModal()">Add to Cart</button>
+          <a id="modalWaBtn" href="#" target="_blank" class="btn-wa-sm"><i class="fa-brands fa-whatsapp"></i> Order via WA</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CART DRAWER ===== -->
+  <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3>Your Bag</h3>
+      <button onclick="closeCart()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <p class="cart-empty">Your bag is empty.</p>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-total">Total: <span id="cartTotal">$0</span></div>
+      <a id="checkoutWa" href="#" target="_blank" class="btn-wa">
+        <i class="fa-brands fa-whatsapp"></i> Checkout via WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
