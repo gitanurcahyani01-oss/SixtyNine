@@ -182,7 +182,7 @@ updateCartUI();
 document.addEventListener('mousemove', (e) => {
   const shoe = document.querySelector('.hero-shoe');
   if (!shoe || window.innerWidth < 768) return;
-  const x = (e.clientX / window.innerWidth - 0.5) * 12;
-  const y = (e.clientY / window.innerHeight - 0.5) * 8;
-  shoe.style.transform = `translateY(calc(-50% + ${y}px)) translateX(${x}px)`;
+  const x = (e.clientX / window.innerWidth - 0.5) * 10;
+  const y = (e.clientY / window.innerHeight - 0.5) * 6;
+  shoe.style.transform = `translate(${x}px, ${y}px)`;
 });
