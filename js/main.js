@@ -42,7 +42,6 @@ sections.forEach(sec => observer.observe(sec));
 // FIX: Langsung tampilkan kartu yang sudah visible saat halaman dibuka
 function animateCards() {
   const cards = document.querySelectorAll('.product-card');
-  
   const cardObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -57,25 +56,21 @@ function animateCards() {
   }, { threshold: 0.1, rootMargin: '0px 0px 50px 0px' });
 
   cards.forEach((card, i) => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(40px)';
     card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     card.dataset.delay = String(i * 100); // stagger berdasarkan index
-    cardObserver.observe(card);
-  });
 
-  // Langsung reveal kartu yang sudah dalam viewport saat load
-  setTimeout(() => {
-    cards.forEach((card, i) => {
-      const rect = card.getBoundingClientRect();
-      if (rect.top < window.innerHeight && rect.bottom > 0) {
-        setTimeout(() => {
-          card.style.opacity = '1';
-          card.style.transform = 'translateY(0)';
-        }, i * 100);
-      }
-    });
-  }, 50);
+    const rect = card.getBoundingClientRect();
+    // Jika kartu sudah terlihat saat load, biarkan tampil langsung
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+    } else {
+      // Jika belum terlihat, sembunyikan dan amati untuk animasi saat muncul
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(40px)';
+      cardObserver.observe(card);
+    }
+  });
 }
 
 // ===== TOAST =====
@@ -193,6 +188,42 @@ document.addEventListener('keydown', (e) => {
 // ===== INIT =====
 updateCartUI();
 animateCards();
+
+// Pastikan tampilan awal langsung ke bagian hero agar tidak terlihat kosong
+function ensureInitialView() {
+  const hero = document.getElementById('home');
+  const nav = document.getElementById('navbar');
+  if (!hero) return;
+  const offset = (nav ? nav.offsetHeight : 0) + 8; // beri sedikit jarak
+
+  function attemptScroll() {
+    // pastikan tidak ada overlay aktif yang menutupi tampilan
+    document.querySelectorAll('.modal-overlay.active, .cart-overlay.active').forEach(el => el.classList.remove('active'));
+    document.body.style.overflow = '';
+
+    const rect = hero.getBoundingClientRect();
+    // jika sudah terlihat, tidak perlu scroll
+    if (rect.top < window.innerHeight && rect.bottom > 0) return true;
+
+    const top = rect.top + window.pageYOffset - offset;
+    window.scrollTo({ top, left: 0, behavior: 'auto' });
+    return false;
+  }
+
+  let attempts = 0;
+  const maxAttempts = 12;
+  // Coba segera, lalu ulang beberapa kali untuk mengatasi timing layout
+  if (attemptScroll()) return;
+  const id = setInterval(() => {
+    attempts++;
+    const done = attemptScroll();
+    if (done || attempts >= maxAttempts) clearInterval(id);
+  }, 100);
+}
+
+// Jalankan saat DOM siap dan saat semua resource (gambar) telah dimuat.
+document.addEventListener('DOMContentLoaded', ensureInitialView);
+window.addEventListener('load', ensureInitialView);
 
 // ===== HERO SHOE PARALLAX (subtle) =====
 document.addEventListener('mousemove', (e) => {
