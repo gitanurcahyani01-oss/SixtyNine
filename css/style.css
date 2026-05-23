@@ -712,3 +712,182 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .about-stats { flex-wrap: wrap; gap: 24px; }
   .contact-info { flex-direction: column; align-items: center; }
 }
+
+/* ===== RESPONSIVE IMPROVEMENTS ===== */
+
+/* Hero: pastikan konten tidak overflow di layar kecil */
+@media (max-width: 768px) {
+  .hero {
+    padding: 90px 20px 50px;
+    min-height: 100svh; /* pakai svh agar konsisten di mobile browser */
+  }
+
+  .hero-content {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .hero-title {
+    font-size: clamp(2.4rem, 11vw, 3.5rem);
+  }
+
+  .hero-sub {
+    font-size: 0.95rem;
+    max-width: 100%;
+  }
+
+  .hero-btns {
+    width: 100%;
+  }
+
+  .hero-btns .btn-primary,
+  .hero-btns .btn-ghost {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* Shoe tetap tampil tapi lebih kecil */
+  .hero-shoe {
+    max-width: 300px;
+    width: 85%;
+  }
+
+  .shoe-platform {
+    padding: 20px;
+  }
+
+  /* Products */
+  .products {
+    padding: 50px 16px;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .product-info {
+    padding: 14px;
+  }
+
+  .product-info h3 {
+    font-size: 1rem;
+  }
+
+  .price {
+    font-size: 1rem;
+  }
+
+  .btn-detail {
+    font-size: 0.72rem;
+    padding: 6px 12px;
+  }
+
+  /* Arrivals */
+  .arrivals-banner {
+    padding: 60px 20px;
+    text-align: center;
+  }
+
+  .arrivals-content {
+    align-items: center;
+  }
+
+  .arrivals-content p {
+    max-width: 100%;
+  }
+
+  /* About */
+  .about {
+    padding: 60px 20px;
+    gap: 32px;
+  }
+
+  .about-stats {
+    gap: 20px;
+  }
+
+  .stat-num {
+    font-size: 1.6rem;
+  }
+
+  /* Contact */
+  .contact {
+    padding: 60px 20px;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 50px 20px 0;
+  }
+
+  .footer-inner {
+    gap: 30px;
+    padding-bottom: 40px;
+  }
+
+  /* Modal fullscreen di mobile */
+  .modal-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .modal {
+    border-radius: 24px 24px 0 0;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-info {
+    padding: 24px 20px;
+  }
+
+  /* Cart drawer full width */
+  .cart-drawer {
+    width: 100vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .hero-title {
+    font-size: clamp(2.2rem, 12vw, 3rem);
+  }
+
+  .nav-container {
+    padding: 0 16px;
+    gap: 12px;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    width: 100%;
+  }
+
+  .stat {
+    align-items: center;
+    text-align: center;
+  }
+
+  .contact-info {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-title {
+    font-size: clamp(1.8rem, 9vw, 2.5rem);
+  }
+}
+
+/* Smooth scroll untuk semua browser */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
