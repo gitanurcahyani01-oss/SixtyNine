@@ -39,26 +39,44 @@ const observer = new IntersectionObserver((entries) => {
 sections.forEach(sec => observer.observe(sec));
 
 // ===== CARD ANIMATION ON SCROLL =====
-const cards = document.querySelectorAll('.product-card');
-const cardObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      const delay = parseInt(entry.target.dataset.delay || 0);
-      setTimeout(() => {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-      }, delay);
-      cardObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.15 });
+// FIX: Langsung tampilkan kartu yang sudah visible saat halaman dibuka
+function animateCards() {
+  const cards = document.querySelectorAll('.product-card');
+  
+  const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const delay = parseInt(entry.target.dataset.delay || 0);
+        setTimeout(() => {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }, delay);
+        cardObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px 50px 0px' });
 
-cards.forEach(card => {
-  card.style.opacity = '0';
-  card.style.transform = 'translateY(40px)';
-  card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-  cardObserver.observe(card);
-});
+  cards.forEach((card, i) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(40px)';
+    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    card.dataset.delay = String(i * 100); // stagger berdasarkan index
+    cardObserver.observe(card);
+  });
+
+  // Langsung reveal kartu yang sudah dalam viewport saat load
+  setTimeout(() => {
+    cards.forEach((card, i) => {
+      const rect = card.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        setTimeout(() => {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, i * 100);
+      }
+    });
+  }, 50);
+}
 
 // ===== TOAST =====
 function showToast(msg) {
@@ -92,7 +110,7 @@ function updateCartUI() {
         </div>
         <div class="cart-item-info">
           <h4>${item.name}</h4>
-          <span>$${item.price}</span>
+          <span>Rp ${item.price.toLocaleString('id-ID')}</span>
         </div>
         <button class="cart-item-remove" onclick="removeFromCart(${i})" aria-label="Remove">
           <i class="fa-solid fa-trash"></i>
@@ -101,12 +119,12 @@ function updateCartUI() {
     `;
   }).join('');
 
-  document.getElementById('cartTotal').textContent = `$${total}`;
+  document.getElementById('cartTotal').textContent = `Rp ${total.toLocaleString('id-ID')}`;
   footer.style.display = 'block';
 
   // Build WhatsApp checkout message
-  const orderText = cart.map(item => `- ${item.name} ($${item.price})`).join('%0A');
-  const waMsg = `Halo SixtNine! Saya ingin memesan:%0A%0A${orderText}%0A%0ATotal: $${total}%0A%0AMohon konfirmasinya, terima kasih!`;
+  const orderText = cart.map(item => `- ${item.name} (Rp ${item.price.toLocaleString('id-ID')})`).join('%0A');
+  const waMsg = `Halo SixtNine! Saya ingin memesan:%0A%0A${orderText}%0A%0ATotal: Rp ${total.toLocaleString('id-ID')}%0A%0AMohon konfirmasinya, terima kasih!`;
   document.getElementById('checkoutWa').href = `https://wa.me/${WA_NUMBER}?text=${waMsg}`;
 }
 
@@ -142,14 +160,11 @@ document.querySelector('.cart-btn').addEventListener('click', openCart);
 function openDetail(name, price, imgSrc) {
   currentModal = { name, price, img: imgSrc };
   document.getElementById('modalName').textContent = name;
-  document.getElementById('modalPrice').textContent = `$${price}`;
+  document.getElementById('modalPrice').textContent = `Rp ${price.toLocaleString('id-ID')}`;
   document.getElementById('modalImg').src = imgSrc;
 
-  // Build WhatsApp order link
-  const waMsg = `Halo SixtNine! Saya tertarik dengan produk *${name}* seharga *$${price}*. Apakah masih tersedia? Terima kasih!`;
-  document.getElementById('modalWaBtn').href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waMsg.replace('%0A', '\n'))}`;
-  // fix encoding
-  document.getElementById('modalWaBtn').href = `https://wa.me/${WA_NUMBER}?text=Halo%20SixtNine!%20Saya%20tertarik%20dengan%20produk%20*${encodeURIComponent(name)}*%20seharga%20*$${price}*.%20Apakah%20masih%20tersedia%3F%20Terima%20kasih!`;
+  const waMsg = `Halo SixtNine! Saya tertarik dengan produk *${name}* seharga *Rp ${price.toLocaleString('id-ID')}*. Apakah masih tersedia? Terima kasih!`;
+  document.getElementById('modalWaBtn').href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waMsg)}`;
 
   document.getElementById('modalOverlay').classList.add('active');
   document.body.style.overflow = 'hidden';
@@ -177,6 +192,7 @@ document.addEventListener('keydown', (e) => {
 
 // ===== INIT =====
 updateCartUI();
+animateCards();
 
 // ===== HERO SHOE PARALLAX (subtle) =====
 document.addEventListener('mousemove', (e) => {
