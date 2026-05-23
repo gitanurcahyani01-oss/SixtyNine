@@ -235,6 +235,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   position: relative;
   display: flex; align-items: center; justify-content: center;
   animation: floatShoe 4s ease-in-out infinite;
+  width: 100%;
+  max-width: 560px;
 }
 
 .shoe-platform {
@@ -244,10 +246,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   padding: 30px;
   box-shadow: var(--shadow-lg);
   width: 100%;
+  max-width: 100%;
 }
 
 .shoe-platform img {
-  width: 100%; border-radius: 20px;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  border-radius: 20px;
   object-fit: cover;
 }
 
@@ -691,8 +697,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .hamburger { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; font-size: 1rem; }
   .hamburger:hover { background: var(--light-bg); }
 
-  .hero { grid-template-columns: 1fr; padding: 110px 24px 60px; min-height: auto; gap: 32px; }
-  .hero-content { padding-left: 0; align-items: center; text-align: center; }
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 30px 16px 32px;
+    min-height: auto;
+    gap: 26px;
+    align-items: flex-start;
+  }
+  .hero-content { padding-left: 0; align-items: flex-start; text-align: left; }
   .hero-sub { text-align: left; }
   .hero-shoe { animation: none; max-width: 420px; width: 100%; margin: 0 auto; }
   .floating-badge { display: none; }
@@ -707,6 +719,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 @media (max-width: 480px) {
+  .hero { padding: 20px 14px 28px; }
+  .hero-content { text-align: left; }
   .hero-btns { flex-direction: column; }
   .btn-primary, .btn-ghost { text-align: center; justify-content: center; }
   .about-stats { flex-wrap: wrap; gap: 24px; }
@@ -718,13 +732,15 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* Hero: pastikan konten tidak overflow di layar kecil */
 @media (max-width: 768px) {
   .hero {
-    padding: 90px 20px 50px;
-    min-height: 100svh; /* pakai svh agar konsisten di mobile browser */
+    padding: 20px 16px 32px;
+    min-height: auto;
+    align-items: flex-start;
   }
 
   .hero-content {
     align-items: flex-start;
     text-align: left;
+    scroll-margin-top: 90px;
   }
 
   .hero-title {
@@ -749,12 +765,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
   /* Shoe tetap tampil tapi lebih kecil */
   .hero-shoe {
-    max-width: 300px;
-    width: 85%;
+    max-width: 100%;
+    width: 100%;
   }
 
   .shoe-platform {
-    padding: 20px;
+    padding: 16px;
   }
 
   /* Products */
