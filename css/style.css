@@ -798,6 +798,69 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     max-width: 100%;
   }
 
+/* ===== BUTTON RESPONSIVE FIXES ===== */
+/* Pastikan tombol tidak menyebabkan overflow dan menyesuaikan ukuran di berbagai breakpoint */
+.btn-primary,
+.btn-ghost,
+.btn-wa,
+.btn-wa-sm,
+.btn-detail,
+.quick-add,
+.size-btn {
+  box-sizing: border-box;
+  min-width: 0; /* izinkan elemen menyusut pada flex container */
+}
+
+/* Default kecil: gunakan padding yang proporsional dan izinkan mengecil */
+.btn-primary,
+.btn-ghost,
+.btn-wa,
+.btn-wa-sm,
+.btn-detail {
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .btn-primary,
+  .btn-ghost,
+  .btn-wa,
+  .btn-wa-sm,
+  .btn-detail {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    border-radius: 12px;
+    width: auto;
+    max-width: 100%;
+    flex: 1 1 auto;
+  }
+
+  /* Pastikan kumpulan tombol di hero dan modal mengisi baris dengan rapi */
+  .hero-btns { width: 100%; }
+  .hero-btns .btn-primary,
+  .hero-btns .btn-ghost { flex: 1 1 48%; }
+
+  .modal-actions .btn-primary { flex: 1 1 100%; }
+
+  /* Quick-add di kartu produk: jangan overflow; jika ruang sempit, tampilkan di dalam aliran */
+  .product-card .quick-add { max-width: calc(100% - 32px); left: 50%; transform: translateX(-50%); }
+  .quick-add { white-space: nowrap; }
+}
+
+@media (max-width: 480px) {
+  .btn-primary,
+  .btn-wa {
+    padding: 12px 18px;
+    font-size: 0.95rem;
+    border-radius: 12px;
+    width: 100%;
+  }
+
+  .btn-ghost { padding: 10px 14px; width: 100%; }
+
+  .hero-btns { gap: 10px; }
+}
+
+
   /* About */
   .about {
     padding: 60px 20px;
